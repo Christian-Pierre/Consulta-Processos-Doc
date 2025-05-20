@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma de Desenvolvimento - Consulta de Processos Judiciais</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="index.html">Consulta Processos</a>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Cronograma de Desenvolvimento</h1>
+            <p>Plano detalhado para implementação do sistema em 1 mês e meio (6 semanas)</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container grid">
+            <div class="content">
+                <div class="toc">
+                    <h3>Índice</h3>
+                    <!-- Gerado automaticamente pelo JavaScript -->
+                </div>
+
+                <h2>Visão Geral do Cronograma</h2>
+                <p>Este documento apresenta o cronograma detalhado para o desenvolvimento do sistema de consulta de processos judiciais utilizando Django REST Framework, com prazo total de 1 mês e meio (6 semanas). O cronograma foi estruturado em fases progressivas, com entregas incrementais e pontos de validação para garantir o alinhamento com os requisitos.</p>
+
+                <h3>Resumo do Cronograma</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fase</th>
+                            <th>Descrição</th>
+                            <th>Duração</th>
+                            <th>Semanas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Configuração e Estrutura Base</td>
+                            <td>1 semana</td>
+                            <td>Semana 1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Desenvolvimento Core e Integrações</td>
+                            <td>2 semanas</td>
+                            <td>Semanas 2-3</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Jobs de Atualização e Notificações</td>
+                            <td>1 semana</td>
+                            <td>Semana 4</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Frontend e Refinamentos</td>
+                            <td>1 semana</td>
+                            <td>Semana 5</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Testes, Documentação e Deploy</td>
+                            <td>1 semana</td>
+                            <td>Semana 6</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Detalhamento por Fase</h2>
+
+                <h3>Fase 1: Configuração e Estrutura Base (Semana 1)</h3>
+                
+                <h4>Semana 1: Dias 1-3</h4>
+                <div class="card">
+                    <h3>Configuração do Ambiente de Desenvolvimento</h3>
+                    <ul>
+                        <li>Criação do projeto Django e configuração inicial</li>
+                        <li>Configuração do Docker e Docker Compose</li>
+                        <li>Configuração do banco de dados PostgreSQL</li>
+                        <li>Configuração do Django REST Framework</li>
+                        <li>Setup do ambiente de desenvolvimento para a equipe</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Modelagem de Dados</h3>
+                    <ul>
+                        <li>Implementação dos modelos de dados definidos na arquitetura</li>
+                        <li>Criação das migrações iniciais</li>
+                        <li>Configuração do admin do Django para gerenciamento básico</li>
+                    </ul>
+                </div>
+
+                <h4>Semana 1: Dias 4-5</h4>
+                <div class="card">
+                    <h3>Autenticação e Autorização</h3>
+                    <ul>
+                        <li>Implementação do sistema de autenticação JWT</li>
+                        <li>Configuração de permissões e grupos de usuários</li>
+                        <li>Endpoints de registro, login e gerenciamento de usuários</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Estrutura Base da API</h3>
+                    <ul>
+                        <li>Definição da estrutura de URLs</li>
+                        <li>Implementação dos serializers básicos</li>
+                        <li>Configuração de middlewares e settings</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>Entrega da Semana 1:</strong>
+                    <ul>
+                        <li>Ambiente de desenvolvimento funcional</li>
+                        <li>Modelos de dados implementados</li>
+                        <li>Sistema de autenticação operacional</li>
+                        <li>Estrutura base da API configurada</li>
+                    </ul>
+                </div>
+
+                <h3>Fase 2: Desenvolvimento Core e Integrações (Semanas 2-3)</h3>
+                
+                <h4>Semana 2: Dias 1-3</h4>
+                <div class="card">
+                    <h3>Implementação dos Endpoints de Processos</h3>
+                    <ul>
+                        <li>CRUD completo de processos</li>
+                        <li>Endpoints para listagem e filtragem</li>
+                        <li>Endpoints para detalhes de processos</li>
+                        <li>Endpoints para partes e movimentações</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Adaptadores de Integração - Parte 1</h3>
+                    <ul>
+                        <li>Implementação do adaptador para API Datajud/CNJ</li>
+                        <li>Configuração de cache e rate limiting</li>
+                        <li>Testes de integração com a API externa</li>
+                    </ul>
+                </div>
+
+                <h4>Semana 2: Dias 4-5</h4>
+                <div class="card">
+                    <h3>Adaptadores de Integração - Parte 2</h3>
+                    <ul>
+                        <li>Implementação de adaptadores para tribunais específicos (TJSP, TJRJ)</li>
+                        <li>Padronização de respostas entre diferentes fontes</li>
+                        <li>Tratamento de erros e fallbacks</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Serviço de Consulta de Processos</h3>
+                    <ul>
+                        <li>Implementação do serviço de busca por número de processo</li>
+                        <li>Implementação do serviço de busca por CPF/CNPJ</li>
+                        <li>Integração com os adaptadores desenvolvidos</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>Entrega da Semana 2:</strong>
+                    <ul>
+                        <li>Endpoints de processos funcionais</li>
+                        <li>Adaptadores de integração para principais tribunais</li>
+                        <li>Serviço de consulta operacional</li>
+                    </ul>
+                </div>
+
+                <h4>Semana 3: Dias 1-3</h4>
+                <div class="card">
+                    <h3>Configuração de Serviços de Background</h3>
+                    <ul>
+                        <li>Setup do Celery e RabbitMQ</li>
+                        <li>Configuração de filas e workers</li>
+                        <li>Implementação de tarefas básicas</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Implementação de Cache e Otimizações</h3>
+                    <ul>
+                        <li>Configuração do Redis para cache</li>
+                        <li>Implementação de estratégias de cache para consultas frequentes</li>
+                        <li>Otimização de consultas ao banco de dados</li>
+                    </ul>
+                </div>
+
+                <h4>Semana 3: Dias 4-5</h4>
+                <div class="card">
+                    <h3>Endpoints Administrativos</h3>
+                    <ul>
+                        <li>Implementação de endpoints para estatísticas</li>
+                        <li>Implementação de endpoints para monitoramento</li>
+                        <li>Configuração de permissões administrativas</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Testes de Integração</h3>
+                    <ul>
+                        <li>Testes automatizados para endpoints principais</li>
+                        <li>Testes de integração com APIs externas</li>
+                        <li>Correções e ajustes baseados nos resultados</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>Entrega da Semana 3:</strong>
+                    <ul>
+                        <li>Serviços de background configurados</li>
+                        <li>Sistema de cache implementado</li>
+                        <li>Endpoints administrativos funcionais</li>
+                        <li>Testes de integração executados</li>
+                    </ul>
+                </div>
+
+                <h3>Fase 3: Jobs de Atualização e Notificações (Semana 4)</h3>
+                
+                <h4>Semana 4: Dias 1-3</h4>
+                <div class="card">
+                    <h3>Job de Atualização de Processos</h3>
+                    <ul>
+                        <li>Implementação do scheduler para atualização periódica</li>
+                        <li>Lógica de priorização de processos</li>
+                        <li>Mecanismos de detecção de mudanças</li>
+                        <li>Tratamento de erros e retry</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Sistema de Notificações - Parte 1</h3>
+                    <ul>
+                        <li>Implementação do detector de mudanças relevantes</li>
+                        <li>Geração de notificações no sistema</li>
+                        <li>Configuração de preferências de notificação</li>
+                    </ul>
+                </div>
+
+                <h4>Semana 4: Dias 4-5</h4>
+                <div class="card">
+                    <h3>Sistema de Notificações - Parte 2</h3>
+                    <ul>
+                        <li>Implementação de notificações por e-mail</li>
+                        <li>Implementação de webhooks para integrações externas</li>
+                        <li>Agendamento e agrupamento de notificações</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Testes e Ajustes dos Jobs</h3>
+                    <ul>
+                        <li>Testes de carga para jobs de atualização</li>
+                        <li>Verificação de performance e otimizações</li>
+                        <li>Ajustes de configuração baseados em resultados</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>Entrega da Semana 4:</strong>
+                    <ul>
+                        <li>Job de atualização de processos funcional</li>
+                        <li>Sistema de notificações implementado</li>
+                        <li>Testes de carga e performance executados</li>
+                    </ul>
+                </div>
+
+                <h3>Fase 4: Frontend e Refinamentos (Semana 5)</h3>
+                
+                <h4>Semana 5: Dias 1-3</h4>
+                <div class="card">
+                    <h3>Desenvolvimento de API Docs</h3>
+                    <ul>
+                        <li>Implementação de documentação interativa com Swagger/OpenAPI</li>
+                        <li>Exemplos de uso para cada endpoint</li>
+                        <li>Documentação de autenticação e autorização</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Refinamentos de API</h3>
+                    <ul>
+                        <li>Ajustes em endpoints baseados em feedback</li>
+                        <li>Implementação de filtros adicionais</li>
+                        <li>Otimização de respostas e payloads</li>
+                    </ul>
+                </div>
+
+                <h4>Semana 5: Dias 4-5</h4>
+                <div class="card">
+                    <h3>Monitoramento e Logging</h3>
+                    <ul>
+                        <li>Configuração de logging estruturado</li>
+                        <li>Implementação de métricas operacionais</li>
+                        <li>Setup de dashboards de monitoramento</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Segurança e Auditoria</h3>
+                    <ul>
+                        <li>Revisão de segurança da API</li>
+                        <li>Implementação de auditoria de acessos</li>
+                        <li>Proteções contra ataques comuns</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>Entrega da Semana 5:</strong>
+                    <ul>
+                        <li>Documentação da API completa</li>
+                        <li>Refinamentos implementados</li>
+                        <li>Sistema de monitoramento configurado</li>
+                        <li>Revisão de segurança concluída</li>
+                    </ul>
+                </div>
+
+                <h3>Fase 5: Testes, Documentação e Deploy (Semana 6)</h3>
+                
+                <h4>Semana 6: Dias 1-3</h4>
+                <div class="card">
+                    <h3>Testes Finais</h3>
+                    <ul>
+                        <li>Testes de integração completos</li>
+                        <li>Testes de carga e performance</li>
+                        <li>Testes de segurança</li>
+                        <li>Correções de bugs identificados</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Documentação Técnica</h3>
+                    <ul>
+                        <li>Documentação de arquitetura</li>
+                        <li>Guias de desenvolvimento</li>
+                        <li>Documentação de operação e manutenção</li>
+                    </ul>
+                </div>
+
+                <h4>Semana 6: Dias 4-5</h4>
+                <div class="card">
+                    <h3>Preparação para Deploy</h3>
+                    <ul>
+                        <li>Configuração de ambiente de produção</li>
+                        <li>Scripts de deploy e rollback</li>
+                        <li>Configuração de backup e recuperação</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Treinamento e Handover</h3>
+                    <ul>
+                        <li>Preparação de material de treinamento</li>
+                        <li>Sessão de handover técnico</li>
+                        <li>Documentação de suporte</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>Entrega Final:</strong>
+                    <ul>
+                        <li>Sistema completo em ambiente de produção</li>
+                        <li>Documentação técnica e de usuário</li>
+                        <li>Material de treinamento</li>
+                        <li>Código-fonte e artefatos de build</li>
+                    </ul>
+                </div>
+
+                <h2>Marcos e Entregas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Marco</th>
+                            <th>Descrição</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>M1</td>
+                            <td>Estrutura base e autenticação</td>
+                            <td>Fim da Semana 1</td>
+                        </tr>
+                        <tr>
+                            <td>M2</td>
+                            <td>Endpoints core e integrações</td>
+                            <td>Fim da Semana 3</td>
+                        </tr>
+                        <tr>
+                            <td>M3</td>
+                            <td>Jobs de atualização e notificações</td>
+                            <td>Fim da Semana 4</td>
+                        </tr>
+                        <tr>
+                            <td>M4</td>
+                            <td>Documentação e refinamentos</td>
+                            <td>Fim da Semana 5</td>
+                        </tr>
+                        <tr>
+                            <td>M5</td>
+                            <td>Sistema completo em produção</td>
+                            <td>Fim da Semana 6</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Recursos Necessários</h2>
+
+                <h3>Equipe</h3>
+                <ul>
+                    <li>1 Desenvolvedor Backend Sênior (Django/Python)</li>
+                    <li>1 Desenvolvedor Backend Pleno (Django/Python)</li>
+                    <li>1 DevOps (meio período)</li>
+                    <li>1 QA (meio período a partir da semana 3)</li>
+                </ul>
+
+                <h3>Infraestrutura</h3>
+                <ul>
+                    <li>Ambiente de desenvolvimento</li>
+                    <li>Ambiente de homologação</li>
+                    <li>Ambiente de produção</li>
+                    <li>Servidores de CI/CD</li>
+                </ul>
+
+                <h3>Ferramentas</h3>
+                <ul>
+                    <li>Repositório Git</li>
+                    <li>Sistema de CI/CD</li>
+                    <li>Ferramentas de monitoramento</li>
+                    <li>Plataforma de gestão de projeto</li>
+                </ul>
+
+                <h2>Riscos e Mitigações</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Risco</th>
+                            <th>Impacto</th>
+                            <th>Probabilidade</th>
+                            <th>Mitigação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Indisponibilidade de APIs externas</td>
+                            <td>Alto</td>
+                            <td>Média</td>
+                            <td>Implementar cache e fallbacks</td>
+                        </tr>
+                        <tr>
+                            <td>Complexidade de integração com múltiplos tribunais</td>
+                            <td>Alto</td>
+                            <td>Alta</td>
+                            <td>Priorizar tribunais mais importantes e implementar adaptadores genéricos</td>
+                        </tr>
+                        <tr>
+                            <td>Performance inadequada dos jobs de atualização</td>
+                            <td>Médio</td>
+                            <td>Média</td>
+                            <td>Testes de carga antecipados e otimização contínua</td>
+                        </tr>
+                        <tr>
+                            <td>Atrasos na implementação</td>
+                            <td>Médio</td>
+                            <td>Média</td>
+                            <td>Buffer de contingência e priorização de funcionalidades</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Considerações Finais</h2>
+                <p>Este cronograma foi elaborado considerando um time dedicado e com experiência em Django/Python. Ajustes podem ser necessários conforme o andamento do projeto e feedback dos stakeholders. Recomenda-se revisões semanais do cronograma para garantir o alinhamento com os objetivos do projeto.</p>
+                
+                <p>A abordagem incremental permite entregas parciais funcionais ao longo do desenvolvimento, possibilitando validações antecipadas e ajustes de curso quando necessário.</p>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Navegação Rápida</h3>
+                <ul>
+                    <li><a href="index.html">Visão Geral</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html" class="active">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+
+                <h3>Seções</h3>
+                <ul>
+                    <li><a href="#visão-geral-do-cronograma">Visão Geral</a></li>
+                    <li><a href="#detalhamento-por-fase">Detalhamento por Fase</a></li>
+                    <li><a href="#marcos-e-entregas">Marcos e Entregas</a></li>
+                    <li><a href="#recursos-necessários">Recursos Necessários</a></li>
+                    <li><a href="#riscos-e-mitigações">Riscos e Mitigações</a></li>
+                </ul>
+
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="https://www.djangoproject.com/" target="_blank">Django Framework</a></li>
+                    <li><a href="https://www.django-rest-framework.org/" target="_blank">Django REST Framework</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="arquitetura.html">Arquitetura</a></li>
+                        <li><a href="fluxos.html">Fluxos</a></li>
+                        <li><a href="cronograma.html">Cronograma</a></li>
+                        <li><a href="api.html">API</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sistema de Consulta de Processos Judiciais</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação da API - Consulta de Processos Judiciais</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="index.html">Consulta Processos</a>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Documentação da API</h1>
+            <p>Endpoints, parâmetros e exemplos de uso da API REST</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container grid">
+            <div class="content">
+                <div class="toc">
+                    <h3>Índice</h3>
+                    <!-- Gerado automaticamente pelo JavaScript -->
+                </div>
+
+                <h2>Visão Geral da API</h2>
+                <p>A API do Sistema de Consulta de Processos Judiciais segue o padrão REST e foi desenvolvida utilizando Django REST Framework. Todos os endpoints retornam dados no formato JSON e utilizam autenticação JWT para garantir a segurança das informações.</p>
+
+                <h3>URL Base</h3>
+                <div class="code">
+                    <code>https://api.consultaprocessos.com/api/v1</code>
+                </div>
+
+                <h3>Autenticação</h3>
+                <p>A API utiliza autenticação baseada em JWT (JSON Web Tokens). Para acessar os endpoints protegidos, é necessário incluir o token no cabeçalho de autorização:</p>
+                <div class="code">
+                    <code>Authorization: Bearer {seu_token_jwt}</code>
+                </div>
+
+                <h2>Endpoints de Autenticação</h2>
+
+                <h3>Obter Token de Autenticação</h3>
+                <div class="card">
+                    <p><span class="badge badge-primary">POST</span> <code>/auth/token/</code></p>
+                    <p>Obtém um token JWT para autenticação na API.</p>
+                    
+                    <h4>Parâmetros (JSON)</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Obrigatório</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>username</td>
+                                <td>string</td>
+                                <td>Nome de usuário</td>
+                                <td>Sim</td>
+                            </tr>
+                            <tr>
+                                <td>password</td>
+                                <td>string</td>
+                                <td>Senha do usuário</td>
+                                <td>Sim</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <pre><code>{
+  "username": "usuario@exemplo.com",
+  "password": "senha_segura"
+}</code></pre>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}</code></pre>
+                </div>
+
+                <h3>Renovar Token</h3>
+                <div class="card">
+                    <p><span class="badge badge-primary">POST</span> <code>/auth/token/refresh/</code></p>
+                    <p>Renova um token JWT expirado ou próximo de expirar.</p>
+                    
+                    <h4>Parâmetros (JSON)</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Obrigatório</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>refresh</td>
+                                <td>string</td>
+                                <td>Token de refresh</td>
+                                <td>Sim</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <pre><code>{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}</code></pre>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}</code></pre>
+                </div>
+
+                <h3>Registrar Novo Usuário</h3>
+                <div class="card">
+                    <p><span class="badge badge-primary">POST</span> <code>/auth/register/</code></p>
+                    <p>Registra um novo usuário no sistema.</p>
+                    
+                    <h4>Parâmetros (JSON)</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Obrigatório</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>username</td>
+                                <td>string</td>
+                                <td>Nome de usuário</td>
+                                <td>Sim</td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td>string</td>
+                                <td>Email do usuário</td>
+                                <td>Sim</td>
+                            </tr>
+                            <tr>
+                                <td>password</td>
+                                <td>string</td>
+                                <td>Senha do usuário</td>
+                                <td>Sim</td>
+                            </tr>
+                            <tr>
+                                <td>password_confirm</td>
+                                <td>string</td>
+                                <td>Confirmação da senha</td>
+                                <td>Sim</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <pre><code>{
+  "username": "novousuario",
+  "email": "usuario@exemplo.com",
+  "password": "senha_segura",
+  "password_confirm": "senha_segura"
+}</code></pre>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "username": "novousuario",
+  "email": "usuario@exemplo.com",
+  "created_at": "2025-05-20T12:34:56Z"
+}</code></pre>
+                </div>
+
+                <h2>Endpoints de Processos</h2>
+
+                <h3>Listar Processos do Usuário</h3>
+                <div class="card">
+                    <p><span class="badge badge-success">GET</span> <code>/processos/</code></p>
+                    <p>Retorna a lista de processos cadastrados pelo usuário autenticado.</p>
+                    
+                    <h4>Parâmetros de Query</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Obrigatório</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>page</td>
+                                <td>integer</td>
+                                <td>Número da página para paginação</td>
+                                <td>Não</td>
+                            </tr>
+                            <tr>
+                                <td>page_size</td>
+                                <td>integer</td>
+                                <td>Quantidade de itens por página</td>
+                                <td>Não</td>
+                            </tr>
+                            <tr>
+                                <td>tribunal</td>
+                                <td>string</td>
+                                <td>Filtro por tribunal (sigla)</td>
+                                <td>Não</td>
+                            </tr>
+                            <tr>
+                                <td>situacao</td>
+                                <td>string</td>
+                                <td>Filtro por situação atual</td>
+                                <td>Não</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "count": 42,
+  "next": "https://api.consultaprocessos.com/api/v1/processos/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "numero_processo": "0000123-45.2022.8.26.0100",
+      "tribunal": {
+        "id": "550e8400-e29b-41d4-a716-446655440001",
+        "sigla": "TJSP",
+        "nome": "Tribunal de Justiça de São Paulo"
+      },
+      "classe_processual": "Procedimento Comum Cível",
+      "situacao_atual": "Em andamento",
+      "ultima_atualizacao": "2025-05-19T15:30:45Z"
+    },
+    // ... outros processos
+  ]
+}</code></pre>
+                </div>
+
+                <h3>Cadastrar Novo Processo</h3>
+                <div class="card">
+                    <p><span class="badge badge-primary">POST</span> <code>/processos/</code></p>
+                    <p>Cadastra um novo processo para monitoramento.</p>
+                    
+                    <h4>Parâmetros (JSON)</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Obrigatório</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>numero_processo</td>
+                                <td>string</td>
+                                <td>Número do processo no formato CNJ</td>
+                                <td>Sim</td>
+                            </tr>
+                            <tr>
+                                <td>tribunal_id</td>
+                                <td>string</td>
+                                <td>ID do tribunal (opcional se o número estiver no formato CNJ)</td>
+                                <td>Não</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Requisição</h4>
+                    <pre><code>{
+  "numero_processo": "0000123-45.2022.8.26.0100"
+}</code></pre>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "numero_processo": "0000123-45.2022.8.26.0100",
+  "tribunal": {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "sigla": "TJSP",
+    "nome": "Tribunal de Justiça de São Paulo"
+  },
+  "classe_processual": "Procedimento Comum Cível",
+  "assunto": "Indenização por Dano Material",
+  "data_distribuicao": "2022-03-15",
+  "orgao_julgador": "4ª Vara Cível",
+  "valor_causa": 50000.00,
+  "situacao_atual": "Em andamento",
+  "ultima_atualizacao": "2025-05-20T10:15:30Z"
+}</code></pre>
+                </div>
+
+                <h3>Buscar Processos</h3>
+                <div class="card">
+                    <p><span class="badge badge-primary">POST</span> <code>/processos/busca/</code></p>
+                    <p>Busca processos por número, CPF ou CNPJ.</p>
+                    
+                    <h4>Parâmetros (JSON)</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Obrigatório</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>numero_processo</td>
+                                <td>string</td>
+                                <td>Número do processo no formato CNJ</td>
+                                <td>Não*</td>
+                            </tr>
+                            <tr>
+                                <td>cpf</td>
+                                <td>string</td>
+                                <td>CPF para busca de processos associados</td>
+                                <td>Não*</td>
+                            </tr>
+                            <tr>
+                                <td>cnpj</td>
+                                <td>string</td>
+                                <td>CNPJ para busca de processos associados</td>
+                                <td>Não*</td>
+                            </tr>
+                            <tr>
+                                <td>tribunal_id</td>
+                                <td>string</td>
+                                <td>ID do tribunal para restringir a busca</td>
+                                <td>Não</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>* Pelo menos um dos parâmetros (numero_processo, cpf ou cnpj) deve ser fornecido.</p>
+
+                    <h4>Exemplo de Requisição (por CPF)</h4>
+                    <pre><code>{
+  "cpf": "123.456.789-00"
+}</code></pre>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "count": 3,
+  "results": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "numero_processo": "0000123-45.2022.8.26.0100",
+      "tribunal": {
+        "id": "550e8400-e29b-41d4-a716-446655440001",
+        "sigla": "TJSP",
+        "nome": "Tribunal de Justiça de São Paulo"
+      },
+      "classe_processual": "Procedimento Comum Cível",
+      "situacao_atual": "Em andamento",
+      "ultima_atualizacao": "2025-05-19T15:30:45Z"
+    },
+    // ... outros processos
+  ]
+}</code></pre>
+                </div>
+
+                <h2>Endpoints de Notificações</h2>
+
+                <h3>Listar Notificações do Usuário</h3>
+                <div class="card">
+                    <p><span class="badge badge-success">GET</span> <code>/notificacoes/</code></p>
+                    <p>Retorna a lista de notificações do usuário autenticado.</p>
+                    
+                    <h4>Parâmetros de Query</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Obrigatório</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>page</td>
+                                <td>integer</td>
+                                <td>Número da página para paginação</td>
+                                <td>Não</td>
+                            </tr>
+                            <tr>
+                                <td>page_size</td>
+                                <td>integer</td>
+                                <td>Quantidade de itens por página</td>
+                                <td>Não</td>
+                            </tr>
+                            <tr>
+                                <td>lida</td>
+                                <td>boolean</td>
+                                <td>Filtro por status de leitura</td>
+                                <td>Não</td>
+                            </tr>
+                            <tr>
+                                <td>processo_id</td>
+                                <td>string</td>
+                                <td>Filtro por processo específico</td>
+                                <td>Não</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "count": 15,
+  "next": "https://api.consultaprocessos.com/api/v1/notificacoes/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "processo": {
+        "id": "550e8400-e29b-41d4-a716-446655440001",
+        "numero_processo": "0000123-45.2022.8.26.0100"
+      },
+      "tipo_notificacao": "nova_movimentacao",
+      "descricao": "Nova movimentação: Despacho - Designada audiência",
+      "lida": false,
+      "data_envio": "2025-05-20T08:45:30Z"
+    },
+    // ... outras notificações
+  ]
+}</code></pre>
+                </div>
+
+                <h3>Configurações de Notificação</h3>
+                <div class="card">
+                    <p><span class="badge badge-success">GET</span> <code>/notificacoes/configuracoes/</code></p>
+                    <p>Obtém as configurações de notificação do usuário.</p>
+
+                    <h4>Exemplo de Resposta</h4>
+                    <pre><code>{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "email": true,
+  "sistema": true,
+  "webhook": false,
+  "webhook_url": null,
+  "frequencia": "diaria",
+  "tipos_notificacao": [
+    "nova_movimentacao",
+    "mudanca_status",
+    "audiencia_proxima"
+  ]
+}</code></pre>
+                </div>
+
+                <h2>Códigos de Status</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>200 OK</td>
+                            <td>Requisição bem-sucedida</td>
+                        </tr>
+                        <tr>
+                            <td>201 Created</td>
+                            <td>Recurso criado com sucesso</td>
+                        </tr>
+                        <tr>
+                            <td>400 Bad Request</td>
+                            <td>Parâmetros inválidos ou ausentes</td>
+                        </tr>
+                        <tr>
+                            <td>401 Unauthorized</td>
+                            <td>Autenticação necessária ou inválida</td>
+                        </tr>
+                        <tr>
+                            <td>403 Forbidden</td>
+                            <td>Sem permissão para acessar o recurso</td>
+                        </tr>
+                        <tr>
+                            <td>404 Not Found</td>
+                            <td>Recurso não encontrado</td>
+                        </tr>
+                        <tr>
+                            <td>429 Too Many Requests</td>
+                            <td>Limite de requisições excedido</td>
+                        </tr>
+                        <tr>
+                            <td>500 Internal Server Error</td>
+                            <td>Erro interno do servidor</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Limites de Uso</h2>
+                <p>A API possui os seguintes limites de uso:</p>
+                <ul>
+                    <li>Máximo de 100 requisições por minuto por usuário</li>
+                    <li>Máximo de 5.000 requisições por dia por usuário</li>
+                    <li>Máximo de 100 processos cadastrados por usuário (plano básico)</li>
+                    <li>Máximo de 10 consultas simultâneas por usuário</li>
+                </ul>
+
+                <h2>Documentação Interativa</h2>
+                <p>Uma documentação interativa completa da API estará disponível em:</p>
+                <div class="code">
+                    <code>https://api.consultaprocessos.com/docs/</code>
+                </div>
+                <p>A documentação interativa permite testar os endpoints diretamente no navegador e explorar todos os parâmetros disponíveis.</p>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Navegação Rápida</h3>
+                <ul>
+                    <li><a href="index.html">Visão Geral</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html" class="active">API</a></li>
+                </ul>
+
+                <h3>Seções</h3>
+                <ul>
+                    <li><a href="#visão-geral-da-api">Visão Geral</a></li>
+                    <li><a href="#endpoints-de-autenticação">Autenticação</a></li>
+                    <li><a href="#endpoints-de-processos">Processos</a></li>
+                    <li><a href="#endpoints-de-notificações">Notificações</a></li>
+                    <li><a href="#códigos-de-status">Códigos de Status</a></li>
+                    <li><a href="#limites-de-uso">Limites de Uso</a></li>
+                </ul>
+
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="https://www.django-rest-framework.org/" target="_blank">Django REST Framework</a></li>
+                    <li><a href="https://swagger.io/tools/swagger-ui/" target="_blank">Swagger UI</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="arquitetura.html">Arquitetura</a></li>
+                        <li><a href="fluxos.html">Fluxos</a></li>
+                        <li><a href="cronograma.html">Cronograma</a></li>
+                        <li><a href="api.html">API</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sistema de Consulta de Processos Judiciais</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

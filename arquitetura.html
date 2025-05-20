@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitetura do Sistema - Consulta de Processos Judiciais</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="index.html">Consulta Processos</a>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Arquitetura do Sistema</h1>
+            <p>Estrutura técnica, componentes e modelos de dados do sistema de consulta de processos judiciais</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container grid">
+            <div class="content">
+                <div class="toc">
+                    <h3>Índice</h3>
+                    <!-- Gerado automaticamente pelo JavaScript -->
+                </div>
+
+                <h2>Visão Geral da Arquitetura</h2>
+                <p>O sistema proposto é uma API REST desenvolvida em Django para cadastro, consulta, monitoramento e notificação de processos judiciais nos tribunais estaduais brasileiros. A arquitetura foi projetada para ser escalável, resiliente e de fácil manutenção, permitindo a integração com múltiplas fontes de dados (APIs de tribunais) e oferecendo uma interface padronizada para os clientes.</p>
+
+                <h3>Diagrama de Arquitetura</h3>
+                <div class="diagram">
+                    <pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                      Clientes (Frontend/Apps)                   │
+└───────────────────────────────┬─────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                        API Gateway / Nginx                      │
+└───────────────────────────────┬─────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Django REST Framework                      │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────┐ │
+│  │  Autenticação │  │   Processos  │  │ Notificações │  │  Admin  │ │
+│  │    & Usuários │  │     API      │  │     API      │  │   API   │ │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────┘ │
+└───────────────────────────────┬─────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                       Camada de Serviços                        │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────┐ │
+│  │   Consulta   │  │ Atualização  │  │  Notificação │  │ Relatórios│ │
+│  │   Processos  │  │  Processos   │  │   Mudanças   │  │          │ │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────┘ │
+└───────────────────────────────┬─────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Adaptadores de Integração                    │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────┐ │
+│  │  Adaptador   │  │  Adaptador   │  │  Adaptador   │  │   ...   │ │
+│  │  API Datajud │  │  TJSP        │  │  TJRJ        │  │         │ │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────┘ │
+└───────────────────────────────┬─────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Banco de Dados PostgreSQL                  │
+└─────────────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Serviços de Background                     │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────┐ │
+│  │  Celery      │  │  Redis       │  │  RabbitMQ    │  │ Flower  │ │
+│  │  Workers     │  │  Cache       │  │  Message Bus │  │ Monitor │ │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────┘ │
+└─────────────────────────────────────────────────────────────────┘</pre>
+                </div>
+
+                <h2>Componentes da Arquitetura</h2>
+
+                <h3>1. API Gateway / Nginx</h3>
+                <ul>
+                    <li>Ponto de entrada único para todas as requisições</li>
+                    <li>Balanceamento de carga</li>
+                    <li>Terminação SSL</li>
+                    <li>Controle de rate limiting básico</li>
+                </ul>
+
+                <h3>2. Django REST Framework</h3>
+                <ul>
+                    <li>Framework principal para desenvolvimento da API REST</li>
+                    <li>Implementação dos endpoints da API</li>
+                    <li>Autenticação e autorização</li>
+                    <li>Validação de dados</li>
+                    <li>Serialização/deserialização</li>
+                </ul>
+
+                <h3>3. Camada de Serviços</h3>
+                <ul>
+                    <li>Lógica de negócio encapsulada</li>
+                    <li>Serviços independentes para cada domínio funcional</li>
+                    <li>Implementação das regras de negócio</li>
+                    <li>Orquestração das operações complexas</li>
+                </ul>
+
+                <h3>4. Adaptadores de Integração</h3>
+                <ul>
+                    <li>Interfaces padronizadas para comunicação com APIs externas</li>
+                    <li>Implementações específicas para cada tribunal/fonte de dados</li>
+                    <li>Tratamento de erros e retry</li>
+                    <li>Cache de respostas</li>
+                </ul>
+
+                <h3>5. Banco de Dados PostgreSQL</h3>
+                <ul>
+                    <li>Armazenamento persistente de dados</li>
+                    <li>Suporte a consultas complexas</li>
+                    <li>Indexação eficiente</li>
+                    <li>Backup e recuperação</li>
+                </ul>
+
+                <h3>6. Serviços de Background</h3>
+                <ul>
+                    <li>Celery para processamento assíncrono</li>
+                    <li>Redis para cache e filas de tarefas</li>
+                    <li>RabbitMQ como message broker</li>
+                    <li>Flower para monitoramento de tarefas</li>
+                </ul>
+
+                <h2>Modelos de Dados</h2>
+
+                <h3>Usuario</h3>
+                <ul>
+                    <li>id: UUID (chave primária)</li>
+                    <li>username: CharField</li>
+                    <li>email: EmailField</li>
+                    <li>password: CharField (hash)</li>
+                    <li>is_active: BooleanField</li>
+                    <li>created_at: DateTimeField</li>
+                    <li>updated_at: DateTimeField</li>
+                </ul>
+
+                <h3>Processo</h3>
+                <ul>
+                    <li>id: UUID (chave primária)</li>
+                    <li>numero_processo: CharField (formato CNJ)</li>
+                    <li>tribunal: ForeignKey -> Tribunal</li>
+                    <li>classe_processual: CharField</li>
+                    <li>assunto: CharField</li>
+                    <li>data_distribuicao: DateField</li>
+                    <li>orgao_julgador: CharField</li>
+                    <li>valor_causa: DecimalField</li>
+                    <li>situacao_atual: CharField</li>
+                    <li>ultima_atualizacao: DateTimeField</li>
+                    <li>usuario: ForeignKey -> Usuario</li>
+                    <li>created_at: DateTimeField</li>
+                    <li>updated_at: DateTimeField</li>
+                </ul>
+
+                <h3>Parte</h3>
+                <ul>
+                    <li>id: UUID (chave primária)</li>
+                    <li>processo: ForeignKey -> Processo</li>
+                    <li>nome: CharField</li>
+                    <li>tipo_parte: CharField (autor, réu, etc.)</li>
+                    <li>documento: CharField (CPF/CNPJ)</li>
+                    <li>created_at: DateTimeField</li>
+                    <li>updated_at: DateTimeField</li>
+                </ul>
+
+                <h3>Movimentacao</h3>
+                <ul>
+                    <li>id: UUID (chave primária)</li>
+                    <li>processo: ForeignKey -> Processo</li>
+                    <li>data_movimentacao: DateTimeField</li>
+                    <li>tipo_movimentacao: CharField</li>
+                    <li>descricao: TextField</li>
+                    <li>responsavel: CharField</li>
+                    <li>created_at: DateTimeField</li>
+                    <li>updated_at: DateTimeField</li>
+                </ul>
+
+                <h3>Tribunal</h3>
+                <ul>
+                    <li>id: UUID (chave primária)</li>
+                    <li>sigla: CharField</li>
+                    <li>nome: CharField</li>
+                    <li>estado: CharField</li>
+                    <li>api_endpoint: URLField</li>
+                    <li>api_tipo: CharField</li>
+                    <li>created_at: DateTimeField</li>
+                    <li>updated_at: DateTimeField</li>
+                </ul>
+
+                <h3>Notificacao</h3>
+                <ul>
+                    <li>id: UUID (chave primária)</li>
+                    <li>usuario: ForeignKey -> Usuario</li>
+                    <li>processo: ForeignKey -> Processo</li>
+                    <li>movimentacao: ForeignKey -> Movimentacao</li>
+                    <li>tipo_notificacao: CharField</li>
+                    <li>lida: BooleanField</li>
+                    <li>enviada: BooleanField</li>
+                    <li>data_envio: DateTimeField</li>
+                    <li>created_at: DateTimeField</li>
+                    <li>updated_at: DateTimeField</li>
+                </ul>
+
+                <h3>ConfiguracaoNotificacao</h3>
+                <ul>
+                    <li>id: UUID (chave primária)</li>
+                    <li>usuario: ForeignKey -> Usuario</li>
+                    <li>tipo_notificacao: CharField</li>
+                    <li>email: BooleanField</li>
+                    <li>sistema: BooleanField</li>
+                    <li>webhook: BooleanField</li>
+                    <li>webhook_url: URLField</li>
+                    <li>frequencia: CharField</li>
+                    <li>created_at: DateTimeField</li>
+                    <li>updated_at: DateTimeField</li>
+                </ul>
+
+                <h2>Endpoints da API</h2>
+
+                <h3>Autenticação</h3>
+                <ul>
+                    <li><code>POST /api/auth/token/</code> - Obter token de autenticação</li>
+                    <li><code>POST /api/auth/token/refresh/</code> - Renovar token</li>
+                    <li><code>POST /api/auth/register/</code> - Registrar novo usuário</li>
+                    <li><code>POST /api/auth/password/reset/</code> - Solicitar reset de senha</li>
+                </ul>
+
+                <h3>Processos</h3>
+                <ul>
+                    <li><code>GET /api/processos/</code> - Listar processos do usuário</li>
+                    <li><code>POST /api/processos/</code> - Cadastrar novo processo</li>
+                    <li><code>GET /api/processos/{id}/</code> - Obter detalhes de um processo</li>
+                    <li><code>PUT /api/processos/{id}/</code> - Atualizar processo</li>
+                    <li><code>DELETE /api/processos/{id}/</code> - Remover processo</li>
+                    <li><code>GET /api/processos/{id}/movimentacoes/</code> - Listar movimentações</li>
+                    <li><code>GET /api/processos/{id}/partes/</code> - Listar partes do processo</li>
+                    <li><code>POST /api/processos/busca/</code> - Buscar processos por número, CPF ou CNPJ</li>
+                    <li><code>POST /api/processos/{id}/atualizar/</code> - Forçar atualização de um processo</li>
+                </ul>
+
+                <h3>Notificações</h3>
+                <ul>
+                    <li><code>GET /api/notificacoes/</code> - Listar notificações do usuário</li>
+                    <li><code>PUT /api/notificacoes/{id}/</code> - Marcar notificação como lida</li>
+                    <li><code>GET /api/notificacoes/configuracoes/</code> - Obter configurações de notificação</li>
+                    <li><code>PUT /api/notificacoes/configuracoes/</code> - Atualizar configurações de notificação</li>
+                </ul>
+
+                <h3>Tribunais</h3>
+                <ul>
+                    <li><code>GET /api/tribunais/</code> - Listar tribunais disponíveis</li>
+                    <li><code>GET /api/tribunais/{id}/</code> - Obter detalhes de um tribunal</li>
+                </ul>
+
+                <h3>Admin</h3>
+                <ul>
+                    <li><code>GET /api/admin/usuarios/</code> - Listar usuários (admin)</li>
+                    <li><code>GET /api/admin/estatisticas/</code> - Obter estatísticas do sistema (admin)</li>
+                    <li><code>GET /api/admin/jobs/</code> - Monitorar jobs de atualização (admin)</li>
+                </ul>
+
+                <h2>Considerações de Segurança</h2>
+
+                <h3>Autenticação e Autorização</h3>
+                <ul>
+                    <li>JWT (JSON Web Tokens) para autenticação</li>
+                    <li>Permissões baseadas em roles</li>
+                    <li>Rate limiting por usuário</li>
+                    <li>Proteção contra ataques comuns (CSRF, XSS, etc.)</li>
+                </ul>
+
+                <h3>Dados Sensíveis</h3>
+                <ul>
+                    <li>Criptografia de dados sensíveis em repouso</li>
+                    <li>Mascaramento de CPF/CNPJ em logs</li>
+                    <li>Auditoria de acessos a dados sensíveis</li>
+                </ul>
+
+                <h3>Comunicação</h3>
+                <ul>
+                    <li>HTTPS obrigatório</li>
+                    <li>Certificados SSL válidos</li>
+                    <li>Headers de segurança adequados</li>
+                </ul>
+
+                <h2>Escalabilidade</h2>
+
+                <h3>Horizontal</h3>
+                <ul>
+                    <li>Stateless design para permitir múltiplas instâncias</li>
+                    <li>Balanceamento de carga entre instâncias</li>
+                    <li>Sessões armazenadas em Redis</li>
+                </ul>
+
+                <h3>Vertical</h3>
+                <ul>
+                    <li>Otimização de consultas ao banco de dados</li>
+                    <li>Indexação adequada</li>
+                    <li>Caching em múltiplos níveis</li>
+                </ul>
+
+                <h3>Distribuição de Carga</h3>
+                <ul>
+                    <li>Filas de tarefas para processamento assíncrono</li>
+                    <li>Priorização de tarefas críticas</li>
+                    <li>Throttling para limitar requisições a APIs externas</li>
+                </ul>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Navegação Rápida</h3>
+                <ul>
+                    <li><a href="index.html">Visão Geral</a></li>
+                    <li><a href="arquitetura.html" class="active">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+
+                <h3>Seções</h3>
+                <ul>
+                    <li><a href="#visão-geral-da-arquitetura">Visão Geral</a></li>
+                    <li><a href="#componentes-da-arquitetura">Componentes</a></li>
+                    <li><a href="#modelos-de-dados">Modelos de Dados</a></li>
+                    <li><a href="#endpoints-da-api">Endpoints da API</a></li>
+                    <li><a href="#considerações-de-segurança">Segurança</a></li>
+                    <li><a href="#escalabilidade">Escalabilidade</a></li>
+                </ul>
+
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="https://www.djangoproject.com/" target="_blank">Django Framework</a></li>
+                    <li><a href="https://www.django-rest-framework.org/" target="_blank">Django REST Framework</a></li>
+                    <li><a href="https://docs.celeryq.dev/" target="_blank">Celery</a></li>
+                    <li><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="arquitetura.html">Arquitetura</a></li>
+                        <li><a href="fluxos.html">Fluxos</a></li>
+                        <li><a href="cronograma.html">Cronograma</a></li>
+                        <li><a href="api.html">API</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sistema de Consulta de Processos Judiciais</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

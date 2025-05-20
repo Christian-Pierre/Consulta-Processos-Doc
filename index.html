@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Consulta de Processos Judiciais</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="index.html">Consulta Processos</a>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Sistema de Consulta de Processos Judiciais</h1>
+            <p>API REST em Django para cadastro, consulta e monitoramento de processos judiciais nos tribunais estaduais brasileiros</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container grid">
+            <div class="content">
+                <h2>Visão Geral do Projeto</h2>
+                <p>Este projeto apresenta uma solução completa para cadastro, consulta e monitoramento de processos judiciais nos tribunais estaduais brasileiros, utilizando Django (Python) como framework principal e seguindo o padrão REST para a API.</p>
+                
+                <h3>Objetivos</h3>
+                <p>O sistema permite aos usuários:</p>
+                <ul>
+                    <li>Cadastrar processos para monitoramento</li>
+                    <li>Consultar processos por número, CPF ou CNPJ</li>
+                    <li>Acompanhar atualizações e movimentações</li>
+                    <li>Receber notificações sobre mudanças de status</li>
+                </ul>
+
+                <h3>Características Principais</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3><i class="fas fa-search"></i> Consulta Inteligente</h3>
+                        <p>Busca processos por número, CPF ou CNPJ em todos os tribunais estaduais brasileiros.</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-sync-alt"></i> Atualização Automática</h3>
+                        <p>Job periódico que mantém os dados atualizados com priorização inteligente.</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-bell"></i> Sistema de Notificações</h3>
+                        <p>Alertas personalizáveis sobre mudanças de status e novas movimentações.</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-shield-alt"></i> Segurança e Escalabilidade</h3>
+                        <p>Arquitetura robusta com autenticação JWT e design escalável.</p>
+                    </div>
+                </div>
+
+                <h3>Tecnologias Utilizadas</h3>
+                <ul>
+                    <li><strong>Backend:</strong> Django 4.2+, Django REST Framework</li>
+                    <li><strong>Processamento Assíncrono:</strong> Celery, RabbitMQ</li>
+                    <li><strong>Banco de Dados:</strong> PostgreSQL</li>
+                    <li><strong>Cache:</strong> Redis</li>
+                    <li><strong>Integração:</strong> API Datajud/CNJ, APIs de tribunais estaduais</li>
+                </ul>
+
+                <h3>Documentação Detalhada</h3>
+                <p>Este site contém a documentação completa do projeto, incluindo:</p>
+                <ul>
+                    <li><a href="arquitetura.html">Arquitetura do Sistema</a> - Estrutura técnica, modelos de dados e componentes</li>
+                    <li><a href="fluxos.html">Fluxos de Consulta e Atualização</a> - Processos de busca, atualização e notificação</li>
+                    <li><a href="cronograma.html">Cronograma de Desenvolvimento</a> - Plano de 6 semanas para implementação</li>
+                    <li><a href="api.html">Documentação da API</a> - Endpoints, parâmetros e exemplos</li>
+                </ul>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Navegação Rápida</h3>
+                <ul>
+                    <li><a href="#" class="active">Visão Geral</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="https://www.cnj.jus.br/sistemas/datajud/api-publica/" target="_blank">API Datajud/CNJ</a></li>
+                    <li><a href="https://www.djangoproject.com/" target="_blank">Django Framework</a></li>
+                    <li><a href="https://www.django-rest-framework.org/" target="_blank">Django REST Framework</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="arquitetura.html">Arquitetura</a></li>
+                        <li><a href="fluxos.html">Fluxos</a></li>
+                        <li><a href="cronograma.html">Cronograma</a></li>
+                        <li><a href="api.html">API</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sistema de Consulta de Processos Judiciais</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

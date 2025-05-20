@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxos de Consulta e Atualização - Consulta de Processos Judiciais</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <a href="index.html">Consulta Processos</a>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Fluxos de Consulta e Atualização</h1>
+            <p>Processos de busca, atualização e notificação de processos judiciais</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container grid">
+            <div class="content">
+                <div class="toc">
+                    <h3>Índice</h3>
+                    <!-- Gerado automaticamente pelo JavaScript -->
+                </div>
+
+                <h2>Visão Geral</h2>
+                <p>Este documento apresenta a análise do fluxo de consulta e atualização de processos judiciais para o sistema proposto, considerando as necessidades de cadastro, busca, monitoramento e notificação de mudanças em processos judiciais nos tribunais estaduais brasileiros.</p>
+
+                <h2>Fluxo de Consulta</h2>
+
+                <h3>1. Cadastro de Processos</h3>
+                <p>O sistema deve permitir o cadastro de processos para monitoramento através de:</p>
+                <ul>
+                    <li><strong>Número do processo</strong>: Formato CNJ padronizado (NNNNNNN-DD.AAAA.J.TR.OOOO)</li>
+                    <li><strong>CPF/CNPJ</strong>: Busca de processos associados a uma pessoa física ou jurídica</li>
+                    <li><strong>Dados complementares</strong>: Informações adicionais para facilitar a organização e categorização</li>
+                </ul>
+
+                <h3>2. Busca Inicial</h3>
+                <p>Quando um processo é cadastrado, o sistema deve:</p>
+                <ol>
+                    <li>Validar o formato dos dados de entrada</li>
+                    <li>Consultar a API do Datajud/CNJ para obter os metadados do processo</li>
+                    <li>Caso não encontre no Datajud, tentar consultas diretas nos tribunais específicos</li>
+                    <li>Armazenar os dados obtidos no banco de dados local</li>
+                    <li>Retornar ao usuário as informações encontradas ou mensagem de erro apropriada</li>
+                </ol>
+
+                <h3>3. Consulta por Usuário</h3>
+                <p>O usuário poderá consultar processos:</p>
+                <ul>
+                    <li>Já cadastrados em sua conta (consulta rápida no banco local)</li>
+                    <li>Novos processos (consulta em tempo real nas APIs externas)</li>
+                    <li>Por filtros diversos (status, tribunal, data de movimentação, etc.)</li>
+                </ul>
+
+                <h2>Fluxo de Atualização</h2>
+
+                <h3>1. Atualização Programada</h3>
+                <p>O sistema deve implementar um job de atualização periódica que:</p>
+                <ul>
+                    <li>Execute em intervalos configuráveis (ex: a cada 6 horas)</li>
+                    <li>Priorize processos com movimentações recentes</li>
+                    <li>Distribua as consultas para evitar sobrecarga nas APIs externas</li>
+                    <li>Implemente mecanismos de retry em caso de falhas temporárias</li>
+                </ul>
+
+                <h3>2. Atualização sob Demanda</h3>
+                <p>Além da atualização programada, o sistema deve permitir:</p>
+                <ul>
+                    <li>Atualização manual solicitada pelo usuário</li>
+                    <li>Atualização imediata após cadastro de novo processo</li>
+                    <li>Atualização em lote para grupos de processos selecionados</li>
+                </ul>
+
+                <h3>3. Estratégia de Cache e Otimização</h3>
+                <p>Para otimizar o uso de recursos e respeitar limites de APIs:</p>
+                <ul>
+                    <li>Implementar cache de respostas para reduzir consultas repetidas</li>
+                    <li>Armazenar histórico completo de movimentações</li>
+                    <li>Utilizar ETags ou outros mecanismos de validação para verificar mudanças sem baixar todo o conteúdo</li>
+                    <li>Implementar filas de processamento para distribuir a carga de consultas</li>
+                </ul>
+
+                <h2>Sistema de Notificações</h2>
+
+                <h3>1. Detecção de Mudanças</h3>
+                <p>O sistema deve ser capaz de:</p>
+                <ul>
+                    <li>Comparar o estado atual com o estado anterior do processo</li>
+                    <li>Identificar novas movimentações</li>
+                    <li>Detectar mudanças de status relevantes</li>
+                    <li>Classificar a importância da mudança</li>
+                </ul>
+
+                <h3>2. Tipos de Notificações</h3>
+                <p>As notificações devem ser configuráveis e incluir:</p>
+                <ul>
+                    <li><strong>Notificações no sistema</strong>: Visíveis no dashboard do usuário</li>
+                    <li><strong>Notificações por e-mail</strong>: Resumos diários ou alertas imediatos</li>
+                    <li><strong>Notificações por API</strong>: Webhooks para integração com outros sistemas</li>
+                    <li><strong>Exportação de relatórios</strong>: Resumos periódicos em formatos como PDF ou Excel</li>
+                </ul>
+
+                <h3>3. Configuração de Alertas</h3>
+                <p>O usuário deve poder configurar:</p>
+                <ul>
+                    <li>Quais tipos de mudanças geram notificações</li>
+                    <li>A frequência das notificações</li>
+                    <li>Agrupamento de notificações por processo, tribunal ou tipo</li>
+                    <li>Prioridade e categorização das notificações</li>
+                </ul>
+
+                <h2>Considerações Técnicas</h2>
+
+                <h3>1. Limitações de APIs</h3>
+                <ul>
+                    <li><strong>Rate limiting</strong>: Implementar controle de taxa de requisições para respeitar limites das APIs</li>
+                    <li><strong>Backoff exponencial</strong>: Em caso de erros, aumentar progressivamente o tempo entre tentativas</li>
+                    <li><strong>Distribuição de carga</strong>: Evitar picos de consultas em horários específicos</li>
+                </ul>
+
+                <h3>2. Resiliência</h3>
+                <ul>
+                    <li><strong>Tratamento de falhas</strong>: Lidar adequadamente com indisponibilidade temporária das APIs</li>
+                    <li><strong>Logging detalhado</strong>: Registrar erros e comportamentos inesperados para análise</li>
+                    <li><strong>Monitoramento</strong>: Implementar health checks e alertas operacionais</li>
+                </ul>
+
+                <h3>3. Escalabilidade</h3>
+                <ul>
+                    <li><strong>Processamento assíncrono</strong>: Utilizar filas para distribuir o processamento</li>
+                    <li><strong>Particionamento</strong>: Dividir as consultas por tribunal ou região para melhor distribuição</li>
+                    <li><strong>Paralelização</strong>: Executar múltiplas consultas simultaneamente respeitando limites</li>
+                </ul>
+
+                <h2>Diagrama de Fluxo</h2>
+                <div class="diagram">
+                    <pre>
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Cadastro  │────>│   Consulta  │────>│ Armazenamento│
+│  Processo   │     │    Inicial  │     │   Local DB   │
+└─────────────┘     └─────────────┘     └─────────────┘
+                          │                    │
+                          v                    v
+                    ┌─────────────┐     ┌─────────────┐
+                    │  APIs CNJ/  │     │   Job de    │
+                    │  Tribunais  │<────│ Atualização │
+                    └─────────────┘     └─────────────┘
+                          │                    │
+                          v                    v
+                    ┌─────────────┐     ┌─────────────┐
+                    │  Detecção   │────>│   Sistema   │
+                    │ de Mudanças │     │Notificações │
+                    └─────────────┘     └─────────────┘</pre>
+                </div>
+
+                <h2>Desafios e Soluções</h2>
+
+                <h3>1. Diversidade de Formatos</h3>
+                <ul>
+                    <li><strong>Desafio</strong>: Cada tribunal pode ter formatos de resposta diferentes</li>
+                    <li><strong>Solução</strong>: Implementar adaptadores específicos para cada tribunal, com uma interface comum</li>
+                </ul>
+
+                <h3>2. Disponibilidade das APIs</h3>
+                <ul>
+                    <li><strong>Desafio</strong>: APIs podem ficar indisponíveis temporariamente</li>
+                    <li><strong>Solução</strong>: Sistema de fallback e retry, com cache local para consultas frequentes</li>
+                </ul>
+
+                <h3>3. Volume de Dados</h3>
+                <ul>
+                    <li><strong>Desafio</strong>: Grande volume de processos para monitorar</li>
+                    <li><strong>Solução</strong>: Implementar estratégias de paginação, compressão e armazenamento eficiente</li>
+                </ul>
+
+                <h3>4. Precisão das Atualizações</h3>
+                <ul>
+                    <li><strong>Desafio</strong>: Garantir que todas as mudanças sejam detectadas</li>
+                    <li><strong>Solução</strong>: Comparação detalhada de estados e verificação periódica completa</li>
+                </ul>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Navegação Rápida</h3>
+                <ul>
+                    <li><a href="index.html">Visão Geral</a></li>
+                    <li><a href="arquitetura.html">Arquitetura</a></li>
+                    <li><a href="fluxos.html" class="active">Fluxos</a></li>
+                    <li><a href="cronograma.html">Cronograma</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+
+                <h3>Seções</h3>
+                <ul>
+                    <li><a href="#visão-geral">Visão Geral</a></li>
+                    <li><a href="#fluxo-de-consulta">Fluxo de Consulta</a></li>
+                    <li><a href="#fluxo-de-atualização">Fluxo de Atualização</a></li>
+                    <li><a href="#sistema-de-notificações">Sistema de Notificações</a></li>
+                    <li><a href="#considerações-técnicas">Considerações Técnicas</a></li>
+                    <li><a href="#desafios-e-soluções">Desafios e Soluções</a></li>
+                </ul>
+
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="https://www.cnj.jus.br/sistemas/datajud/api-publica/" target="_blank">API Datajud/CNJ</a></li>
+                    <li><a href="https://docs.celeryq.dev/" target="_blank">Celery</a></li>
+                    <li><a href="https://redis.io/" target="_blank">Redis</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="arquitetura.html">Arquitetura</a></li>
+                        <li><a href="fluxos.html">Fluxos</a></li>
+                        <li><a href="cronograma.html">Cronograma</a></li>
+                        <li><a href="api.html">API</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sistema de Consulta de Processos Judiciais</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
